@@ -23,4 +23,8 @@ ActiveRecord::Base.connection.create_table("teachers", id: false) do |t|
   t.string :name
   t.index :name, unique: true
   t.string :age, index: true
+  t.string :note
+  t.string :note2
 end
+
+ActiveRecord::Base.logger = Logger.new(STDOUT)
