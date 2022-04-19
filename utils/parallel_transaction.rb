@@ -4,7 +4,7 @@ require './utils/connection'
 require './utils/teacher'
 require './utils/handle_deadlock'
 
-def script(init:, t1:, t2:)
+def parallel_transaction(init:, t1:, t2:)
   init
 
   thread1 = Thread.new{ run(t1) }

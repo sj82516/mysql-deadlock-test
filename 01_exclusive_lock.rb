@@ -3,7 +3,7 @@
 
 require 'active_record'
 
-require './script'
+require './utils/parallel_transaction'
 
 def init
   Teacher.create(id: 1, name: 'aaa', age: 10)
@@ -30,4 +30,4 @@ t2 = Proc.new do
   end
 end
 
-script(init: init, t1: t1, t2: t2)
+parallel_transaction(init: init, t1: t1, t2: t2)
