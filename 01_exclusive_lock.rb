@@ -1,41 +1,33 @@
+# basic: you hold what I wait for and I hold what you wait for
+# how to analyze deadlock info ? https://juejin.cn/post/6844903943516979213
+
 require 'active_record'
 
-require './utils/connection'
-require './utils/teacher'
-require './utils/handle_deadlock'
+require './script'
 
-Teacher.create(id: 1, name: 'aaa', age: 10)
-Teacher.create(id: 5, name: 'bbb', age: 12)
+def init
+  Teacher.create(id: 1, name: 'aaa', age: 10)
+  Teacher.create(id: 5, name: 'bbb', age: 12)
+end
 
-def t1
-  begin
-    ActiveRecord::Base.transaction(isolation: :repeatable_read) do
-      Teacher.where(id: 1).update(age: 15)
+t1 = Proc.new do
+  ActiveRecord::Base.transaction(isolation: :repeatable_read) do
+    Teacher.where(id: 1).update(age: 15)
 
-      sleep 3.seconds
+    sleep 3.seconds
 
-      Teacher.where(id: 5).update(age: 10)
-    end
-  rescue ActiveRecord::Deadlocked => e
-    handle_deadlock
+    Teacher.where(id: 5).update(age: 10)
   end
 end
 
-def t2
-  begin
-    ActiveRecord::Base.transaction(isolation: :repeatable_read) do
-      Teacher.where(id: 5).update(age: 16)
+t2 = Proc.new do
+  ActiveRecord::Base.transaction(isolation: :repeatable_read) do
+    Teacher.where(id: 5).update(age: 16)
 
-      sleep 3.seconds
+    sleep 3.seconds
 
-      Teacher.where(id: 1).update(age: 6)
-    end
-  rescue ActiveRecord::Deadlocked => e
-    handle_deadlock
+    Teacher.where(id: 1).update(age: 6)
   end
 end
 
-t1 = Thread.new{ t1() }
-t2 = Thread.new{ t2() }
-t1.join
-t2.join
+script(init: init, t1: t1, t2: t2)
