@@ -22,7 +22,7 @@ ActiveRecord::Base.connection.create_table("teachers", id: false) do |t|
   t.primary_key :id
   t.string :name
   t.index :name, unique: true
-  t.string :age, index: true
+  t.integer :age, index: true
   t.string :note
 end
 

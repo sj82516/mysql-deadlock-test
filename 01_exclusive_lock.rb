@@ -1,5 +1,7 @@
 # basic: you hold what I wait for and I hold what you wait for
 # how to analyze deadlock info ? https://juejin.cn/post/6844903943516979213
+# how to preserve all deadlock logs https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_print_all_deadlocks
+# if not set, view latest deadlock log
 
 require 'active_record'
 
