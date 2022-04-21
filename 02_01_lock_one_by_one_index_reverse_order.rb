@@ -1,6 +1,8 @@
-# update multi record, innoDb would lock record one by one
-# https://dev.mysql.com/doc/refman/5.7/en/update.html
-# If an UPDATE statement includes an ORDER BY clause, the rows are updated in the order specified by the clause. This can be useful in certain situations that might otherwise result in an error. Suppose that a table t contains a column id that has a unique index. The following statement could fail with a duplicate-key error, depending on the order in which rows are updated:
+# prove: lock by index order
+# only work for MySQL 8.0+ because it could create index by column order
+# before 8.0, all index are asc.
+# https://dev.mysql.com/doc/refman/5.7/en/create-index.html
+# A key_part specification can end with ASC or DESC. These keywords are permitted for future extensions for specifying ascending or descending index value storage. Currently, they are parsed but ignored; index values are always stored in ascending order.
 
 require 'active_record'
 
