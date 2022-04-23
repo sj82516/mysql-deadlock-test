@@ -9,15 +9,15 @@ require 'faker'
 require './utils/parallel_transaction'
 
 def init
-  Teacher.create(id: 1, name: 'aaa', age: 10)
-  Teacher.create(id: 2, name: 'bbb', age: 12)
+  Teacher.create(id: 1, name: 'a', age: 10)
+  Teacher.create(id: 2, name: 'b', age: 12)
   Teacher.create(id: 3, name: 'c', age: 17)
   Teacher.create(id: 4, name: 'd', age: 20)
 end
 
 t1 = Proc.new do
   ActiveRecord::Base.transaction(isolation: :repeatable_read) do
-    Teacher.where(age: 1).update_all(note: 'special')
+    Teacher.where(age: 10).update_all(note: 'special')
     sleep 10.seconds
   end
 end
@@ -25,8 +25,7 @@ end
 t2 = Proc.new do
   ActiveRecord::Base.transaction(isolation: :repeatable_read) do
     sleep 0.5.seconds
-    # Teacher.where(id: 3).update_all(note: "hihi")
-    Teacher.create(name: Faker::Name.name)
+    Teacher.create(name: 'f')
   end
 end
 

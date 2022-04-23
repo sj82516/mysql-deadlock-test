@@ -17,7 +17,7 @@ end
 
 t1 = Proc.new do
   ActiveRecord::Base.transaction(isolation: :repeatable_read) do
-    ActiveRecord::Base.connection.execute('update teachers set teachers.note = "adult" where age = 20')
+    Teacher.where('age == 20').update_all(note: 'adult')
     sleep 10.seconds
   end
 end
@@ -25,7 +25,6 @@ end
 t2 = Proc.new do
   ActiveRecord::Base.transaction(isolation: :repeatable_read) do
     sleep 0.5.seconds
-    # Teacher.where(id: 1).update_all(note: "hihi")
     Teacher.create(name: Faker::Name.name)
   end
 end

@@ -11,10 +11,6 @@ def init
   # would not deadlock, because gap is different
   Teacher.create(id: 2, name: 'aaa', age: 10)
   Teacher.create(id: 7, name: 'bbb', age: 12)
-  # ------
-  # this would deadlock
-  # Teacher.create(id: 1, name: 'aaa', age: 10)
-  # Teacher.create(id: 2, name: 'bbb', age: 12)
 end
 
 t1 = Proc.new do
