@@ -5,7 +5,7 @@ config = { adapter: 'mysql2',
          host: '127.0.0.1',
          username: 'root',
          password: 'root',
-         port: 3311,
+         port: 3310,
          database: database }
 ActiveRecord::Base.establish_connection(
   config

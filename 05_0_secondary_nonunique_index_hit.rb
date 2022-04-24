@@ -1,7 +1,5 @@
 # update by non unique secondary index
-# by explain, it would use primary key and lock all the table
-# be really careful when you batch update
-# https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html
+# non unique secondary would lock gap if not hit
 
 require 'active_record'
 require 'faker'
@@ -9,10 +7,10 @@ require 'faker'
 require './utils/parallel_transaction'
 
 def init
-  Teacher.create(id: 1, name: 'a', age: 10)
-  Teacher.create(id: 2, name: 'b', age: 12)
-  Teacher.create(id: 3, name: 'c', age: 17)
-  Teacher.create(id: 4, name: 'd', age: 20)
+  Teacher.create( name: 'b', age: 10)
+  Teacher.create( name: 'c', age: 12)
+  Teacher.create( name: 'd', age: 17)
+  Teacher.create( name: 'e', age: 20)
 end
 
 t1 = Proc.new do
@@ -25,7 +23,7 @@ end
 t2 = Proc.new do
   ActiveRecord::Base.transaction(isolation: :repeatable_read) do
     sleep 0.5.seconds
-    Teacher.create(name: 'f')
+    Teacher.create(name: 'a', age: 9)
   end
 end
 

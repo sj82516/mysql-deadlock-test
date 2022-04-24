@@ -1,4 +1,4 @@
-# repeatable read would lock next key lock, include gap lock
+# repeatable read would lock next key lock
 # even update miss, transaction would still hold x mode gap lock
 # insert cannot acquire insert intention lock
 # by the way, the next key lock / insert intention lock would not block each other

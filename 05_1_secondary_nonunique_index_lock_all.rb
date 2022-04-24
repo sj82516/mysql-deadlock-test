@@ -1,7 +1,8 @@
 # update by non unique secondary index
-# by explain, it would use primary key and lock all the table
-# be really careful when you batch update
-# https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html
+# https://dev.mysql.com/doc/refman/8.0/en/innodb-locks-set.html
+# "For other search conditions, and for non-unique indexes,
+#  InnoDB locks the index range scanned,
+#  using gap locks or next-key locks to block insertions by other sessions into the gaps covered by the range."
 
 require 'active_record'
 require 'faker'
