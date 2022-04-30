@@ -23,7 +23,7 @@ end
 t2 = Proc.new do
   ActiveRecord::Base.transaction(isolation: :repeatable_read) do
     sleep 0.5.seconds
-    Teacher.create(name: 'a', age: 9)
+    Teacher.create(name: 'a', age: 15)
   end
 end
 

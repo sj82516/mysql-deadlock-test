@@ -8,8 +8,8 @@ require 'active_record'
 require './utils/parallel_transaction'
 
 def init
-  Teacher.create(id: 1, name: 'aaa', age: 10)
-  Teacher.create(id: 5, name: 'bbb', age: 12)
+  Teacher.create(id: 1, name: 'a', age: 10)
+  Teacher.create(id: 5, name: 'b', age: 12)
 end
 
 t1 = Proc.new do

@@ -12,20 +12,21 @@ def init
   Teacher.create(id: 2, name: 'a', age: 10)
   Teacher.create(id: 3, name: 'b', age: 11)
   Teacher.create(id: 4, name: 'c', age: 18)
-  Teacher.create(id: 5, name: 'd', age: 20)
+  Teacher.create(id: 100, name: 'd', age: 20)
 end
 
 t1 = Proc.new do
-  ActiveRecord::Base.transaction(isolation: :repeatable_read) do
+  ActiveRecord::Base.transaction(isolation: :read_committed) do
     ActiveRecord::Base.connection.execute('update teachers use index (PRIMARY) set note="123" where id >= 3 and age = 40')
     sleep 5.seconds
   end
 end
 
 t2 = Proc.new do
-  ActiveRecord::Base.transaction(isolation: :repeatable_read) do
+  ActiveRecord::Base.transaction(isolation: :read_committed) do
     sleep 0.5.seconds
     Teacher.where(id: 3).update_all(age: 15)
+    # Teacher.create(id: 7, name: 'blocked!')
   end
 end
 
